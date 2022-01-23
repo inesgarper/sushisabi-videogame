@@ -4,19 +4,23 @@ const Game = {
     license: undefined,
     version: '1.0.0',
     ctx: undefined,
-    // platform: this.platform,
+    platforms: [],
+    enemies: [],
+    frameIndex: 0,
     // keys: {
     //    SPACE: 'Space'
     // },
-    gameSize: { w: 700, h: 900 },
+    gameSize: { w: 700, h: window.innerHeight },
 
     gameInit() {
         this.setContext()
         this.setCanvasSize()
         this.drawProvisionalBackground()
         this.createPlatform()
+        this.createEnemies()
         this.createRiceBall()
         this.checkPlatformCollision()
+        this.checkWasabiCollision()
         this.drawAll()
         this.setEventHandlers()
     },
@@ -36,32 +40,41 @@ const Game = {
     },
 
     createPlatform() {
-        this.platform = new Platform(this.ctx, 0, 200, 250)
-        // this.platforms.push(
-        //     ,
-        //     new Platform(this.ctx, 250, 320, 220),
-        //     new Platform(this.ctx, 0, 450, 250),
-        //     new Platform(this.ctx, 500, 450, 220),
-        //     new Platform(this.ctx, 200, 650, 150),
-        //     new Platform(this.ctx, 400, 770, 200)
-        // )
+        this.platforms.push(
+            new Platform(this.ctx, 50, 200, 250),
+            new Platform(this.ctx, 250, 320, 220),
+            new Platform(this.ctx, 0, 450, 250),
+            new Platform(this.ctx, 500, 450, 220),
+            new Platform(this.ctx, 200, 650, 150),
+            new Platform(this.ctx, 400, 770, 200)
+        )
+    },
+
+    createEnemies() {
+        this.enemies.push(new Enemy(this.ctx))
     },
 
     createRiceBall() {
-        this.riceBall = new RiceBall(this.ctx, 40, 60, this.gameSize)
+        this.riceBall = new Player(this.ctx, 40, 60, this.gameSize)
     },
 
     drawAll() {
         setInterval(() => {
+            this.frameIndex++
+            this.frameIndex % 20 === 0 ? this.createEnemies() : null
             this.clearAll()
             this.drawProvisionalBackground()
             this.riceBall.draw()
-            this.platform.draw()
-            // this.platforms.forEach((elm) => {
-            //     elm.draw()
-            // })
+            this.platforms.forEach((elm) => {
+                elm.draw()
+            })
+            this.enemies.forEach((elm) => {
+                elm.moveDown()
+                elm.draw()
+            })
             this.checkPlatformCollision()
-        }, 40)
+            this.checkWasabiCollision()
+        }, 60)
     },
 
     clearAll() {
@@ -69,25 +82,27 @@ const Game = {
     },
 
     checkPlatformCollision() {
-        if (this.riceBall.riceBallPos.y >= this.platform.platformPos.y - this.riceBall.riceBallRadius - 1) {
-            this.riceBall.riceBallPhysics.gravity = 0
-        }
-
-        if (this.riceBall.riceBallPos.x >= this.platform.platformPos.x + (this.riceBall.riceBallRadius * 3)) {
-            this.riceBall.riceBallPhysics.gravity = 0
-        }
-
-        if (this.riceBall.riceBallPos.x <= this.platform.platformPos.x + (this.riceBall.riceBallRadius * 3)) {
-            this.riceBall.riceBallPhysics.gravity = 0
-        }
-
-        this.riceBall.riceBallPhysics.gravity = 5
-
-        // this.riceBall.riceBallPos.x >= this.platform.platformPos.x - this.riceBall.riceBallRadius &&
-        // this.riceBall.riceBallPos.x <= this.platform.platformPos.x + this.platform.platformSize.w) {
-
+        this.platforms.forEach((elm) => {
+            if (this.riceBall.riceBallPos.x < elm.platformPos.x + elm.platformSize.w &&
+                this.riceBall.riceBallPos.x + this.riceBall.riceBallRadius > elm.platformPos.x &&
+                this.riceBall.riceBallPos.y < elm.platformPos.y + elm.platformSize.h &&
+                this.riceBall.riceBallRadius + this.riceBall.riceBallPos.y > elm.platformPos.y) {
+                this.riceBall.riceBallVel.y = 0
+            }
+        })
     },
 
+    checkWasabiCollision() {
+        this.enemies.forEach((elm) => {
+            if (this.riceBall.riceBallPos.x < elm.enemyPos.x + elm.enemySize.w &&
+                this.riceBall.riceBallPos.x + this.riceBall.riceBallRadius > elm.enemyPos.x &&
+                this.riceBall.riceBallPos.y < elm.enemyPos.y + elm.enemySize.h &&
+                this.riceBall.riceBallRadius + this.riceBall.riceBallPos.y > elm.enemyPos.y) {
+                this.riceBall.lives--
+                console.log(this.riceBall.lives)
+            }
+        })
+    },
 
     setEventHandlers() {
         document.addEventListener('keydown', event => {
