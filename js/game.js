@@ -19,10 +19,14 @@ const Game = {
         this.createPlatform()
         this.createEnemies()
         this.createRiceBall()
+        this.createIngredients()
         this.checkPlatformCollision()
         this.checkWasabiCollision()
+        this.checkIngredientsCollision()
         this.drawAll()
         this.setEventHandlers()
+        this.gameOver()
+        this.youWin()
     },
 
     setContext() {
@@ -46,7 +50,10 @@ const Game = {
             new Platform(this.ctx, 0, 450, 250),
             new Platform(this.ctx, 500, 450, 220),
             new Platform(this.ctx, 200, 650, 150),
-            new Platform(this.ctx, 400, 770, 200)
+            new Platform(this.ctx, 400, 770, 200),
+            new Platform(this.ctx, 50, 900, 250),
+            new Platform(this.ctx, 280, 1050, 100),
+            new Platform(this.ctx, 450, 1200, 250)
         )
     },
 
@@ -58,8 +65,12 @@ const Game = {
         this.riceBall = new Player(this.ctx, 40, 60, this.gameSize)
     },
 
+    createIngredients() {
+        this.ingredient = new Ingredient(this.ctx, 70, 420)
+    },
+
     drawAll() {
-        setInterval(() => {
+        intervalId = setInterval(() => {
             this.frameIndex++
             this.frameIndex % 20 === 0 ? this.createEnemies() : null
             this.clearAll()
@@ -72,10 +83,14 @@ const Game = {
                 elm.moveDown()
                 elm.draw()
             })
+            this.ingredient?.draw()
             this.checkPlatformCollision()
             this.checkWasabiCollision()
-            // this.clearWasabi()
+            this.checkIngredientsCollision()
+            this.clearWasabi()
             this.createScroll()
+            this.gameOver()
+            this.youWin()
         }, 60)
     },
 
@@ -100,19 +115,71 @@ const Game = {
                 this.riceBall.riceBallPos.x + this.riceBall.riceBallRadius > elm.enemyPos.x &&
                 this.riceBall.riceBallPos.y < elm.enemyPos.y + elm.enemySize.h &&
                 this.riceBall.riceBallRadius + this.riceBall.riceBallPos.y > elm.enemyPos.y) {
-                this.riceBall.lives--
-                elm.enemySize.w = 0
-                elm.enemySize.h = 0
+
+                // elimina el wasabi colisionado
+                const indexOfWasabiToRemove = this.enemies.indexOf(elm)
+                this.enemies.splice(indexOfWasabiToRemove, 1)
+
+                // las vidas disminuyen en 1
+                this.loseLive()
             }
         })
     },
 
-    // clearWasabi() {
-    //     this.enemies = this.enemies.filter(enemy => enemy.posY >= this.gameSize.h)
-    // },
+    loseLive() {
+        this.riceBall.lives--
+        console.log(`me quedan ${this.riceBall.lives} vidas`)
+    },
+
+    checkIngredientsCollision() {
+        if (this.ingredient) {
+            if (this.riceBall.riceBallPos.x < this.ingredient?.ingredientPos.x + this.ingredient?.ingredientSize.w &&
+                this.riceBall.riceBallPos.x + this.riceBall.riceBallRadius > this.ingredient?.ingredientPos.x &&
+                this.riceBall.riceBallPos.y < this.ingredient?.ingredientPos.y + this.ingredient?.ingredientSize.h &&
+                this.riceBall.riceBallRadius + this.riceBall.riceBallPos.y > this.ingredient?.ingredientPos.y) {
+                // el contador de ingredientes aumenta en 1
+                this.updateIngredientesCounter()
+
+                // elimina el ingrediente
+                this.ingredient = undefined
+            }
+        }
+    },
+
+    updateIngredientesCounter() {
+        this.riceBall.ingredients++
+        console.log(`tengo ${this.riceBall.ingredients} ingrediente`)
+    },
+
+    clearWasabi() {
+        this.enemies = this.enemies.filter(elm => elm.enemyPos.y <= this.gameSize.h)
+    },
+
+    gameOver() {
+        if (this.riceBall.lives <= 0) {
+            clearInterval(intervalId)
+            alert('HAS PERDIDO PRINGADO')
+        }
+
+        if (this.riceBall.riceBallPos.y + this.riceBall.riceBallRadius >= this.gameSize.h && this.riceBall.ingredients <= 0) {
+            clearInterval(intervalId)
+            alert('HAS TOCADO EL SUELO PALETO')
+        }
+    },
+
+    youWin() {
+        if (this.riceBall.riceBallPos.y + this.riceBall.riceBallRadius >= this.gameSize.h && this.riceBall.ingredients > 0) {
+            clearInterval(intervalId)
+            alert('HAS GANADOOOOOOO')
+        }
+    },
 
     createScroll() {
         if (this.riceBall.riceBallVel.y > 0) {
+            if (this.ingredient) {
+                this.ingredient.ingredientPos.y -= 5
+            }
+
             this.platforms.forEach((elem => {
                 elem.platformPos.y -= 5
             }))
@@ -126,5 +193,6 @@ const Game = {
             key === 'ArrowLeft' ? this.riceBall.moveLeft() : null
         })
     }
+
 
 }

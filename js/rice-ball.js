@@ -7,7 +7,8 @@ class Player {
         this.riceBallVel = { x: 1, y: 0 }
         this.riceBallPhysics = { gravity: 0.5 }
         this.gameSize = gameSize
-        this.lives = 5
+        this.lives = 3
+        this.ingredients = 0
         // this.imageInstance = undefined
 
         this.initRiceBall()
@@ -23,7 +24,7 @@ class Player {
     draw() {
         this.move()
         this.ctx.beginPath()
-        this.ctx.fillStyle = 'black'
+        this.ctx.fillStyle = 'white'
         this.ctx.arc(this.riceBallPos.x, this.riceBallPos.y, this.riceBallRadius, 0, Math.PI * 2)
         this.ctx.fill()
         this.ctx.closePath()

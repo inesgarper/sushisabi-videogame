@@ -13,7 +13,7 @@ class Platform {
     }
 
     draw() {
-        this.ctx.fillStyle = 'red'
+        this.ctx.fillStyle = 'black'
         this.ctx.fillRect(this.platformPos.x, this.platformPos.y, this.platformSize.w, this.platformSize.h)
     }
 }
