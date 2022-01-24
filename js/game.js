@@ -74,6 +74,8 @@ const Game = {
             })
             this.checkPlatformCollision()
             this.checkWasabiCollision()
+            // this.clearWasabi()
+            this.createScroll()
         }, 60)
     },
 
@@ -99,9 +101,22 @@ const Game = {
                 this.riceBall.riceBallPos.y < elm.enemyPos.y + elm.enemySize.h &&
                 this.riceBall.riceBallRadius + this.riceBall.riceBallPos.y > elm.enemyPos.y) {
                 this.riceBall.lives--
-                console.log(this.riceBall.lives)
+                elm.enemySize.w = 0
+                elm.enemySize.h = 0
             }
         })
+    },
+
+    // clearWasabi() {
+    //     this.enemies = this.enemies.filter(enemy => enemy.posY >= this.gameSize.h)
+    // },
+
+    createScroll() {
+        if (this.riceBall.riceBallVel.y > 0) {
+            this.platforms.forEach((elem => {
+                elem.platformPos.y -= 5
+            }))
+        }
     },
 
     setEventHandlers() {
