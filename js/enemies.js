@@ -1,8 +1,9 @@
-class Enemy {
+class Wasabi {
     constructor(ctx) {
         this.ctx = ctx
         this.enemyPos = { x: undefined, y: 0 }
         this.enemySize = { w: 10, h: 10 }
+        this.damage = 1
 
         this.init()
     }
@@ -25,6 +26,14 @@ class Enemy {
 
     moveDown() {
         this.enemyPos.y += 10
+    }
+}
 
+class HotWasabi extends Wasabi {
+    constructor(ctx) {
+        super(ctx)
+
+        this.enemySize = { w: 20, h: 20 }
+        this.damage = 1.5
     }
 }

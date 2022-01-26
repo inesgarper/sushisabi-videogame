@@ -2,7 +2,7 @@ class Platform {
     constructor(ctx, posX, posY, width) {
         this.ctx = ctx
         this.platformPos = { x: posX, y: posY }
-        this.platformSize = { w: width, h: 20 }
+        this.platformSize = { w: width, h: 10 }
         // y si las convertimos en imágenes, tendrán una propiedad this.imagesInstance = undefined
 
         this.initPlatform()

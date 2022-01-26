@@ -10,6 +10,8 @@ class Player {
         this.lives = 3
         this.ingredients = 0
         // this.imageInstance = undefined
+        this.bullets = []
+        this.bulletsCounter = 10
 
         this.initRiceBall()
     }
@@ -39,6 +41,17 @@ class Player {
             this.riceBallVel.y = 0
         }
 
+        this.checkLateralCollision()
+    }
+
+    checkLateralCollision() {
+        if (this.riceBallPos.x > this.gameSize.w - this.riceBallRadius) {
+            this.riceBallPos.x -= 15
+        }
+
+        if (this.riceBallPos.x <= 0) {
+            this.riceBallPos.x += 30
+        }
     }
 
     moveLeft() {
@@ -47,6 +60,10 @@ class Player {
 
     moveRight() {
         this.riceBallPos.x += 15
+    }
+
+    shoot() {
+        this.bullets.push(new Tobiko(this.ctx, this.riceBallPos.x, this.riceBallPos.y, this.riceBallRadius))
     }
 
 }
