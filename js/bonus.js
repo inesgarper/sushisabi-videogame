@@ -25,6 +25,6 @@ class Bonus {
     }
 
     moveDown() {
-        this.bonusPos.y += 10
+        this.bonusPos.y += 5
     }
 }

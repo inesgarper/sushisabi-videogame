@@ -25,7 +25,7 @@ class Wasabi {
     }
 
     moveDown() {
-        this.enemyPos.y += 10
+        this.enemyPos.y += 3
     }
 }
 

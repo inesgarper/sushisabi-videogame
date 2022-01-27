@@ -1,15 +1,13 @@
 class Tobiko {
-    constructor(ctx, playerPosX, playerPosY, playerRadius) {
+    constructor(ctx, playerPosX, playerPosY, playerSizeW, playerSizeH) {
         this.ctx = ctx
         this.bulletPos = {
-            x: playerPosX + playerRadius / 2,
-            y: playerPosY + playerRadius
+            x: playerPosX + playerSizeW / 2,
+            y: playerPosY + playerSizeH
         }
         this.bulletRadius = 5
         this.bulletVel = { x: 10, y: 1 }
         this.bulletPhysics = { gravity: 1 }
-
-        this.playerRadius = playerRadius
 
         this.initBullet()
     }
@@ -31,4 +29,3 @@ class Tobiko {
         this.bulletPos.y -= 10
     }
 }
-
