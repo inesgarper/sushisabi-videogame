@@ -3,6 +3,7 @@ class Ingredient {
         this.ctx = ctx
         this.ingredientPos = { x: posX, y: posY }
         this.ingredientSize = { w: 50, h: 30 }
+        this.imageInstance = new Image()
 
         this.initIngredient()
     }
@@ -12,31 +13,41 @@ class Ingredient {
     }
 
     draw() {
-        this.ctx.fillStyle = 'pink'
-        this.ctx.fillRect(this.ingredientPos.x, this.ingredientPos.y, this.ingredientSize.w, this.ingredientSize.h)
+        this.ctx.drawImage(this.imageInstance, this.ingredientPos.x, this.ingredientPos.y, this.ingredientSize.w, this.ingredientSize.h)
     }
+
+
 }
 
 class Salmon extends Ingredient {
     constructor(ctx, posX, posY) {
         super(ctx, posX, posY)
+        this.ctx = ctx
+        this.ingredientPos = { x: posX, y: posY }
+        this.ingredientSize = { w: 70, h: 30 }
+        this.imageInstance.src = 'img/salmon.png'
+
     }
+
 }
 
 class Avocado extends Ingredient {
     constructor(ctx, posX, posY) {
         super(ctx, posX, posY)
+        this.ctx = ctx
+        this.ingredientPos = { x: posX, y: posY }
+        this.ingredientSize = { w: 80, h: 30 }
+        this.imageInstance.src = 'img/avocado.png'
     }
+
 }
 
-class Shrimp extends Ingredient {
+class Tamago extends Ingredient {
     constructor(ctx, posX, posY) {
         super(ctx, posX, posY)
-    }
-}
-
-class Nori extends Ingredient {
-    constructor(ctx, posX, posY) {
-        super(ctx, posX, posY)
+        this.ctx = ctx
+        this.ingredientPos = { x: posX, y: posY }
+        this.ingredientSize = { w: 50, h: 30 }
+        this.imageInstance.src = 'img/cosa-amarilla.png'
     }
 }

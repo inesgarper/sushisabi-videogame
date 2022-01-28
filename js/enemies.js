@@ -2,16 +2,19 @@ class Wasabi {
     constructor(ctx) {
         this.ctx = ctx
         this.enemyPos = { x: undefined, y: 0 }
-        this.enemySize = { w: 10, h: 10 }
+        this.enemySize = { w: 30, h: 30 }
         this.damage = 1
+        this.imageInstance = undefined
 
         this.init()
     }
 
     init() {
         this.setRandomPosX()
-        this.draw()
+        //this.draw()
         this.moveDown()
+        this.imageInstance = new Image()
+        this.imageInstance.src = 'img/wasabi.png'
     }
 
     setRandomPosX() {
@@ -20,8 +23,7 @@ class Wasabi {
     }
 
     draw() {
-        this.ctx.fillStyle = 'green'
-        this.ctx.fillRect(this.enemyPos.x, this.enemyPos.y, this.enemySize.w, this.enemySize.h)
+        this.ctx.drawImage(this.imageInstance, this.enemyPos.x, this.enemyPos.y, this.enemySize.w, this.enemySize.h)
     }
 
     moveDown() {
@@ -30,10 +32,12 @@ class Wasabi {
 }
 
 class HotWasabi extends Wasabi {
-    constructor(ctx) {
-        super(ctx)
-
-        this.enemySize = { w: 20, h: 20 }
+    constructor(ctx, posX, posY) {
+        super(ctx, posX, posY)
+        this.ctx = ctx
+        this.enemytPos = { x: posX, y: posY }
+        this.enemySize = { w: 30, h: 30 }
+        this.imageInstance.src = 'img/wasabi-supremo.png'
         this.damage = 1.5
     }
 }

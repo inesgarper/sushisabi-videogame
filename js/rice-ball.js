@@ -2,9 +2,9 @@ class Player {
     constructor(ctx, posX, posY, gameSize, platforms, ingredients) {
         this.ctx = ctx
         this.riceBallPos = { x: posX, y: posY }
-        this.riceBallSize = { w: 50, h: 50 }
+        this.riceBallSize = { w: 60, h: 60 }
 
-        this.riceBallVel = { x: 1, y: 0 }
+        this.riceBallVel = { x: 1, y: 0.5 }
         this.riceBallPhysics = { gravity: 0.1 }
         this.gameSize = gameSize
         this.lives = 3
@@ -13,7 +13,7 @@ class Player {
         this.bulletsCounter = 0
 
         this.image = new Image()
-        this.image.src = "./img/bola-de-arroz (1).png"
+        this.image.src = "./img/bola-de-arroz.png"
         this.image.frames = 4
         this.image.framesIndex = 0
 
@@ -84,11 +84,11 @@ class Player {
     }
 
     moveLeft() {
-        this.riceBallPos.x -= 15
+        this.riceBallPos.x -= 8
     }
 
     moveRight() {
-        this.riceBallPos.x += 15
+        this.riceBallPos.x += 8
     }
 
     shoot() {

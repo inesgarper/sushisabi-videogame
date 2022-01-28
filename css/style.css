@@ -1,0 +1,19 @@
+body {
+    background-color: #53616A;
+}
+
+img {
+    width: 600px;
+    padding: 50px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#myCanvas {
+    border: white 10px solid;
+    margin: 30px;
+}

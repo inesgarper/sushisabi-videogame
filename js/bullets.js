@@ -3,26 +3,24 @@ class Tobiko {
         this.ctx = ctx
         this.bulletPos = {
             x: playerPosX + playerSizeW / 2,
-            y: playerPosY + playerSizeH
+            y: playerPosY + playerSizeH / 2
         }
-        this.bulletRadius = 5
+        this.bulletSize = { w: 15, h: 15 }
         this.bulletVel = { x: 10, y: 1 }
         this.bulletPhysics = { gravity: 1 }
+        this.imageInstance = undefined
 
         this.initBullet()
     }
 
     initBullet() {
-        this.draw()
         this.moveUp()
+        this.imageInstance = new Image()
+        this.imageInstance.src = 'img/bullet.png'
     }
 
     draw() {
-        this.ctx.beginPath()
-        this.ctx.fillStyle = "orange"
-        this.ctx.arc(this.bulletPos.x, this.bulletPos.y, this.bulletRadius, 0, Math.PI * 2)
-        this.ctx.fill()
-        this.ctx.closePath()
+        this.ctx.drawImage(this.imageInstance, this.bulletPos.x, this.bulletPos.y, this.bulletSize.w, this.bulletSize.h)
     }
 
     moveUp() {

@@ -2,16 +2,17 @@ class Bonus {
     constructor(ctx) {
         this.ctx = ctx
         this.bonusPos = { x: undefined, y: 0 }
-        this.bonusSize = { w: 20, h: 20 }
-        this.bonusTime = 30
+        this.bonusSize = { w: 40, h: 40 }
+        this.imageInstance = undefined //inicializa la imagen
 
         this.init()
     }
 
     init() {
         this.setRandomPosX()
-        this.draw()
-        this.moveDown()
+
+        this.imageInstance = new Image()
+        this.imageInstance.src = 'img/bonus.png'
     }
 
     setRandomPosX() {
@@ -20,8 +21,8 @@ class Bonus {
     }
 
     draw() {
-        this.ctx.fillStyle = 'orange'
-        this.ctx.fillRect(this.bonusPos.x, this.bonusPos.y, this.bonusSize.w, this.bonusSize.h)
+        this.ctx.drawImage(this.imageInstance, this.bonusPos.x, this.bonusPos.y, this.bonusSize.w, this.bonusSize.h)
+
     }
 
     moveDown() {
