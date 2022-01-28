@@ -31,9 +31,10 @@ const Game = {
         this.firstLevelPassed()
         this.setEventListener()
         this.createBackground()
-        // this.music = new Audio("./sounds/sonido.mp3")
-        // this.music.volume = true
-        // this.music.play()
+        this.music = new Audio("./sounds/musicaJapo.mp3")
+        this.music.play()
+        this.music.loop = true
+        this.music.volume = 1
     },
 
     // INITIAL SETUP
